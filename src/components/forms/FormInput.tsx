@@ -7,7 +7,7 @@ const inputVariant = cva("rounded-md w-full py-3 px-2 text-inputText  ", {
     variant: {
       contained: "bg-[#f8f8f8]",
       outlined:
-        "border-2 border-inputColor focus:outline-4  bg-transparent  outline-inputColor outline-4 hover:border-[#ff880098] ",
+        "mb-[40px] border-2 border-inputColor focus:outline-4  border-[#D0D5DD] focus:outline-none focus:border-[#32D583] focus:ring-1 focus:[#32D583]",
     },
   },
   defaultVariants: {
