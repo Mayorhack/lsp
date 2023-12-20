@@ -2,23 +2,24 @@ import React from "react";
 import Logo from "../images/logo.svg";
 import FormSelect from "@/components/forms/FormSelect";
 import FormInput from "@/components/forms/FormInput";
+import Image from "next/image";
 
 const index = () => {
   return (
-    <>
-      <div>
-        <span className="lg:w-[475px] h-[136px] flex justify-center items-center  cursor-pointer  ">
-          <img src={Logo} alt="Logo" />
+    <div className="container">
+      <div className="container flex justify-center items-center flex-col">
+        <span className="flex justify-center items-centercursor-pointer my-6 w-full">
+          <Image src={Logo} alt="Logo" />
         </span>
-        <div className=" container px-4">
-          <h1 className="font-semibold text-[#101828] text-[25px] leading-[25px] md:text-[48px] md:leading-[30px] text-start md:w-[474px] md:h-[28px]">
+        <div className="container flex justify-center items-center flex-col py-8 text-[#101828]">
+          <h1 className="font-semibold text-[25px] leading-[25px] md:text-[48px] md:leading-[30px] md:w-[474px] md:h-[28px]">
             Vehicle Request Form
           </h1>
-          <p className="mt-4">
+          <p className="text-center mt-4">
             Please fill the form with accurate information.
           </p>
         </div>
-        <div className="grid grid-flow-row mt-[49px] px-4 w-[760px] h-[84px]">
+        <div className="container grid grid-flow-row mt-2 px-6 lg:w-[760px] lg:h-[84px]">
           <FormSelect options={[]} placeholder="Vehicle Type" />
           <FormInput label="" placeholder="Destination" />
           <FormInput label="" placeholder="Purpose of use " />
@@ -34,7 +35,7 @@ const index = () => {
           <FormInput label="" placeholder="Field trip approved by" />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
