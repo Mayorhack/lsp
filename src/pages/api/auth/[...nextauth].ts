@@ -1,3 +1,5 @@
+import { ResponseService } from "@/types";
+import axios, { AxiosResponse } from "axios";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 export default NextAuth({
@@ -11,21 +13,21 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch(process.env.NEXTAUTH_URL + "login", {
+        const res = await axios.request<AxiosResponse<ResponseService<any>>>({
+          url: process.env.NEXTAUTH_URL + "/login",
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
+          data: {
             username: credentials?.username,
             password: credentials?.password,
-          }),
+          },
         });
-        const resp = await res.json();
 
-        const user = resp.data;
+        const user = res.data.data.data;
 
-        if (resp.code == "00") {
+        if (res.data.data.code == "00") {
           return user;
         } else {
           return null;
