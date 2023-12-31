@@ -5,11 +5,9 @@ interface LayoutProps extends HTMLAttributes<HTMLElement> {}
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
-  // if (router.pathname.includes("auth"))
 
-  //     // <AuthLayout>{children}</AuthLayout>
-  //   );
-  if (router.pathname === "/") return children;
+  if (router.pathname === "/" || router.pathname.includes("auth"))
+    return children;
 
   return <DashboardLayout>{children}</DashboardLayout>;
 };
