@@ -10,7 +10,6 @@ export default function requestHandler(
 
   switch (method) {
     case "GET":
-      // Get data from your database
       res.status(200).json({ id, name: `User ${id}` });
       break;
     case "PUT":
