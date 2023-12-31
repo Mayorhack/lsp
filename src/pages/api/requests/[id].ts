@@ -13,7 +13,6 @@ export default function requestHandler(
       res.status(200).json({ id, name: `User ${id}` });
       break;
     case "PUT":
-      // Update or create data in your database
       res.status(200).json({ id, name: name || `User ${id}` });
       break;
     default:
