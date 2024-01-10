@@ -1,17 +1,26 @@
-import React from "react";
-
-import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 
 import Sidebar from "@/layout/sidebar";
 import Header from "../header";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import ScreenLoader from "@/components/ScreenLoader";
 
 type DashboardLayoutPropsType = {
   children: React.ReactNode;
 };
 
 const DashboardLayout = ({ children }: DashboardLayoutPropsType) => {
+  const { status } = useSession();
   const router = useRouter();
 
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading") return <ScreenLoader />;
   return (
     <div className="">
       <Sidebar />

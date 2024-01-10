@@ -1,4 +1,5 @@
 import { sideBardata } from "@/data/sidebardata";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -63,7 +64,10 @@ const Sidebar = () => {
               );
             })}
           </ul>
-          <p className="mt-10 px-4 py-2 flex gap-8 cursor-pointer text-red-500">
+          <p
+            className="mt-10 px-4 py-2 flex gap-8 cursor-pointer text-red-500"
+            onClick={() => signOut()}
+          >
             <MdLogout size={24} />
             Log out
           </p>

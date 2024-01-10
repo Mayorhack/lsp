@@ -7,7 +7,7 @@ import Button from "@/components/Button";
 
 const index = () => {
   return (
-    <div className="container">
+    <div className="container mx-auto">
       <div className="container flex justify-center items-center flex-col">
         <span className="flex justify-center items-centercursor-pointer my-6 w-full">
           <Image src={Logo} alt="Logo" />
