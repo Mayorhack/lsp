@@ -2,7 +2,7 @@ import Overlay from "@/components/Overlay";
 import { useState } from "react";
 import DashboardGrid from "@/layout/dashboardGrid";
 
-const Dashboard = () => {
+const Vehicles = () => {
   const [openState, setOpenState] = useState(false);
   const openModal = () => {
     setOpenState(true);
@@ -23,4 +23,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Vehicles;

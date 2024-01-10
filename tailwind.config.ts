@@ -18,6 +18,11 @@ const config: Config = {
         primary: "#308c63",
         highlight: "#877838",
       },
+
+      gridTemplateColumns: {
+        220: "repeat(auto-fit,minmax(220px,1fr))",
+        240: "repeat(auto-fit,minmax(240px,1fr))",
+      },
     },
   },
   plugins: [],

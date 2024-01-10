@@ -3,6 +3,7 @@ import Logo from "../images/logo.svg";
 import FormSelect from "@/components/forms/FormSelect";
 import FormInput from "@/components/forms/FormInput";
 import Image from "next/image";
+import Button from "@/components/Button";
 
 const index = () => {
   return (
@@ -33,6 +34,7 @@ const index = () => {
           />
           <FormInput label="" placeholder="Field trip initiated by" />
           <FormInput label="" placeholder="Field trip approved by" />
+          <Button className="mb-4 bg-[#32D583]">Submit</Button>
         </div>
       </div>
     </div>

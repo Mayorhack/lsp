@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
 import { HiMenu } from "react-icons/hi";
 import { MdLogout } from "react-icons/md";
+import Image from "next/image";
+import lsp from "../../images/lsp.webp"
 
 const Sidebar = () => {
   const [menu, setMenu] = useState(false);
@@ -20,10 +22,9 @@ const Sidebar = () => {
         onClick={() => setMenu(true)}
       />
       <div
-        className={`fixed  min-h-screen bg-white left-0 px-5 py-4 shadow-lg  w-[250px] overflow-y-scroll h-full duration-500 lg:translate-x-0 transition-transform disable  z-20 ${
+        className={`fixed  min-h-screen bg-white left-0 px-5 py-4 shadow-lg font-sans font-normal text-lg w-[250px] overflow-y-scroll h-full duration-500 lg:translate-x-0 transition-transform disable  z-20 ${
           menu ? "-translate-x-0 " : "-translate-x-full"
-        }`}
-      >
+        }`}>
         <Link className=" md:pt-[unset] flex items-center px-4 mt-16" href="/">
           {/* <Image
             src="/svgs/logo2.svg"
@@ -32,15 +33,18 @@ const Sidebar = () => {
             height={24}
             className="w-[24px] h-[24px]"
           /> */}
-          <p className="ml-1 font-normal text-[24px] text-primary">
-            iovhdhvdhk
-          </p>
+          <span className="flex flex-row-reverse justify-center items-center">
+            <p className="ml-1 font-normal text-[24px] text-primary">
+              Dashboard
+            </p>
+            <Image src={lsp} alt='lsp_logo' className="w-6 h-6" />
+          </span>
         </Link>
         <FiX
           className="lg:hidden absolute w-4 h- right-3 top-3"
           onClick={() => setMenu(false)}
         />
-        <div className="flex flex-col justify-between capitalize">
+        <div className="flex flex-col font-sans font-normal text-lg justify-between capitalize">
           <ul>
             {sideBardata.map((item) => {
               return (
@@ -49,10 +53,9 @@ const Sidebar = () => {
                     className={`my-4 flex px-4 py-2 gap-8 items-center ${
                       router.pathname.includes(item.link)
                         ? " bg-primary rounded-lg text-white"
-                        : ""
+                        : "text-primary"
                     }`}
-                    href={item.link}
-                  >
+                    href={item.link}>
                     {item.logo}
                     {item.title}
                   </Link>
