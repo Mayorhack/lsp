@@ -11,7 +11,7 @@ type DashboardLayoutPropsType = {
 };
 
 const DashboardLayout = ({ children }: DashboardLayoutPropsType) => {
-  const { status } = useSession();
+  const { data, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -19,6 +19,13 @@ const DashboardLayout = ({ children }: DashboardLayoutPropsType) => {
       router.push("/auth/login");
     }
   }, [status, router]);
+  useEffect(() => {
+    if (typeof window != "undefined") {
+      // @ts-ignore
+      window.localStorage.setItem("token", data?.token);
+    }
+    // @ts-ignore
+  }, [data?.token]);
 
   if (status === "loading") return <ScreenLoader />;
   return (

@@ -16,18 +16,25 @@ export type ResponseService<T> = {
   message?: string;
   data?: T;
   error?: unknown;
+  hasNextPage?: boolean;
+  hasPrevPage?: boolean;
+  totalPages?: number;
 };
 export type ErrorResponse = {
   error?: unknown;
 };
+export interface TableFilters {
+  pageIndex: number;
+  pageSize: number;
+}
 export type VehicleRequestType = {
   vehicleType: string;
   destination: string;
   purpose: string;
   officersCount: string;
-  tripDuration: Date;
+  tripDuration: Date | null;
   initiatedBy: string;
-  approvedBy: string;
+  approvedBy?: string;
   status: string;
 };
 export type UserType = {
@@ -42,3 +49,40 @@ export type ApprovalPayload = {
   approvedBy: string;
   requestId: Number;
 };
+export interface UserDetails {
+  username?: string;
+  roleCategory: null | string;
+  userRole: null | string;
+  phoneNumber: string;
+  firstname: string;
+  lastname: string;
+  active: boolean;
+  status: string;
+  isUserActive: boolean;
+  activatedOn: null | string;
+  email: string;
+  lastLogin: string;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  city: string;
+}
+export interface RequestDetails {
+  vehicleType: string;
+  destination: string;
+  purpose: string;
+  officersCount: string;
+  tripDuration: string;
+  initiatedBy: string;
+  approvedBy: string;
+  status: "Pending" | "Approved" | "Rejected";
+  createdAt: string;
+  updatedAt: string;
+  requestId: number;
+}
+export interface UserFilters {
+  username?: string | string[];
+}
+export interface RequestFilters {
+  username?: string | string[];
+}

@@ -1,4 +1,5 @@
 import { errorHandler } from "@/lib/errorHandler";
+import { authenticateJWT } from "@/lib/jwtHandler";
 import connectToMongoDb from "@/lib/mongodb";
 import VehicleRequest from "@/models/request";
 import { ApprovalPayload, ResponseService } from "@/types";
@@ -10,6 +11,10 @@ export default async function requestHandler(
 ) {
   try {
     await connectToMongoDb();
+    const { code, error } = authenticateJWT(req);
+    if (code != 200) {
+      throw new Error(error, { cause: code });
+    }
     const { body, method } = req;
     const { requestId, approvedBy, status }: ApprovalPayload = body;
     switch (method) {

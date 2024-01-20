@@ -2,8 +2,10 @@ import connectToMongoDb from "@/lib/mongodb";
 import User from "@/models/user";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
+
 import { ResponseService } from "@/types";
 import { errorHandler } from "@/lib/errorHandler";
+import { signJwt } from "@/lib/jwtHandler";
 export default async function loginHandler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseService<any>>
@@ -15,15 +17,22 @@ export default async function loginHandler(
     switch (method) {
       case "POST": {
         const { username, password } = body;
+
         const user = await User.findOne({ username });
+
         if (user && (await bcrypt.compare(password, user.password))) {
-          return res.status(200).json({
+          const token = signJwt(user);
+          // res.setHeader("Set-Cookie", `myCookie=${token}; Path=/; HttpOnly`);
+          const resp = res.status(200).json({
             code: "00",
             message: "Login Successful",
             data: {
               username,
+              token,
             },
           });
+
+          return resp;
         } else {
           throw new Error("Unauthenticated", { cause: 401 });
         }

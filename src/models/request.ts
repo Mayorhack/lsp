@@ -9,8 +9,9 @@ const requestSchema = new Schema(
     officersCount: { type: String, required: true },
     tripDuration: Date,
     initiatedBy: { type: String, required: true },
-    approvedBy: { type: String, required: true },
-    status: { type: String, required: true, default: "Pending" },
+    approvedBy: { type: String },
+    status: { type: String, default: "Pending" },
+    driver: { type: String },
   },
   {
     timestamps: true,
@@ -18,12 +19,9 @@ const requestSchema = new Schema(
 );
 requestSchema.pre("save", async function (next) {
   const request = this;
-
-  // Only increment the userId if it's a new document
   if (!request.isNew) {
     return next();
   }
-
   try {
     const highestRequest = await mongoose
       .model("VehicleRequest", requestSchema)

@@ -18,8 +18,8 @@ const buttonVariants = cva(
         dark: "sm:bg-[#979797] hover:bg-gray-500 sm:text-white border-2 border-black sm:border-none ",
       },
       size: {
-        default: "p-3 h-12",
-        sm: "p-2 h-8",
+        default: "p-3 h-12 w-full",
+        sm: "p-2 px-4 h-8 max-w-[120px]",
         normal: "sm:max-w-[180px] p-3 h-12",
         xs: "max-w-[80px] p-1",
         // lg: "h-11 rounded-md px-8",
@@ -47,7 +47,7 @@ const Button: FC<ButtonProps> = ({
   disabled,
   ...props
 }) => (
-  <motion.div whileTap={{ y: 5 }} className="w-full outline-none">
+  <motion.span whileTap={{ y: 5 }} className=" outline-none">
     <button
       className={cn(buttonVariants({ variant, size, className }))}
       disabled={loading || disabled}
@@ -55,6 +55,6 @@ const Button: FC<ButtonProps> = ({
     >
       {loading ? <span className="loader"></span> : children}
     </button>
-  </motion.div>
+  </motion.span>
 );
 export default Button;

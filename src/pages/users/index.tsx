@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { RequestFilters, TableFilters } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import { DataTable } from "@/components/data-table";
 import SearchFilter from "@/components/data-table/search-filter";
 import FormInput from "@/components/forms/FormInput";
-import { DataTable } from "@/components/data-table";
-import { columns } from "@/data/columns/request-column";
+import { columns } from "@/data/columns/user-column";
+import { TableFilters, UserFilters } from "@/types";
 import axiosInstance from "@/utils/axios-instance";
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 
-const Approvals = () => {
+const Users = () => {
   const [filters, setFilters] = useState<TableFilters>({
     pageIndex: 0,
     pageSize: 10,
   });
-  const [userFilters, setUserFilters] = useState<RequestFilters>({
+  const [userFilters, setUserFilters] = useState<UserFilters>({
     username: "",
   });
   const [appliedFilter, setAppliedFilter] = useState(false);
@@ -22,7 +22,7 @@ const Approvals = () => {
     () =>
       axiosInstance.request({
         method: "get",
-        url: "/requests",
+        url: "/users",
         params: {
           ...filters,
           ...userFilters,
@@ -64,6 +64,7 @@ const Approvals = () => {
           </div>
         </div>
       </SearchFilter>
+
       <div className="">
         <DataTable
           columns={columns}
@@ -80,4 +81,4 @@ const Approvals = () => {
   );
 };
 
-export default Approvals;
+export default Users;

@@ -7,7 +7,7 @@ import { FiX } from "react-icons/fi";
 import { HiMenu } from "react-icons/hi";
 import { MdLogout } from "react-icons/md";
 import Image from "next/image";
-import lsp from "../../images/lsp.webp"
+import lsp from "../../images/lsp.webp";
 
 const Sidebar = () => {
   const [menu, setMenu] = useState(false);
@@ -25,20 +25,19 @@ const Sidebar = () => {
       <div
         className={`fixed  min-h-screen bg-white left-0 px-5 py-4 shadow-lg font-sans font-normal text-lg w-[250px] overflow-y-scroll h-full duration-500 lg:translate-x-0 transition-transform disable  z-20 ${
           menu ? "-translate-x-0 " : "-translate-x-full"
-        }`}>
-        <Link className=" md:pt-[unset] flex items-center px-4 mt-16" href="/">
-          {/* <Image
-            src="/svgs/logo2.svg"
-            alt="logo"
-            width={24}
-            height={24}
-            className="w-[24px] h-[24px]"
-          /> */}
-          <span className="flex flex-row-reverse justify-center items-center">
-            <p className="ml-1 font-normal text-[24px] text-primary">
-              Dashboard
-            </p>
-            <Image src={lsp} alt='lsp_logo' className="w-6 h-6" />
+        }`}
+      >
+        <Link
+          className=" md:pt-[unset]  px-4 mt-10 flex flex-row-reverse justify-center items-center"
+          href="/dashboard"
+        >
+          <span className="">
+            <Image
+              src={lsp}
+              alt="lsp_logo"
+              className="w-16 h-16 mx-auto"
+              unoptimized
+            />
           </span>
         </Link>
         <FiX
@@ -53,10 +52,11 @@ const Sidebar = () => {
                   <Link
                     className={`my-4 flex px-4 py-2 gap-8 items-center ${
                       router.pathname.includes(item.link)
-                        ? " bg-primary rounded-lg text-white"
-                        : "text-primary"
+                        ? " bg-fadedPrimary rounded-lg  text-primary"
+                        : "text-gray-500"
                     }`}
-                    href={item.link}>
+                    href={item.link}
+                  >
                     {item.logo}
                     {item.title}
                   </Link>
@@ -66,7 +66,7 @@ const Sidebar = () => {
           </ul>
           <p
             className="mt-10 px-4 py-2 flex gap-8 cursor-pointer text-red-500"
-            onClick={() => signOut()}
+            onClick={() => signOut({ callbackUrl: "/auth/login" })}
           >
             <MdLogout size={24} />
             Log out

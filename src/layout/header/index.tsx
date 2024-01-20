@@ -3,7 +3,7 @@ import { FiBell } from "react-icons/fi";
 
 const Header = () => {
   return (
-    <div className="flex justify-end items-center">
+    <div className="flex justify-end items-center pt-10">
       <div className="flex justify-between items-center mr-5">
         <FiBell color="bg-primary " size={14} />
       </div>

@@ -24,10 +24,8 @@ export default NextAuth({
             password: credentials?.password,
           },
         });
-
         const user = res.data.data;
-
-        if (res.data.code == "00") {
+        if (res.data.code == "00" && user?.token) {
           return user;
         } else {
           return null;
@@ -35,4 +33,15 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ session, token }) {
+      return {
+        ...token,
+        ...session,
+      };
+    },
+  },
 });

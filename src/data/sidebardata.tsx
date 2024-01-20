@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { FaUser } from "react-icons/fa";
 import { FaCarSide } from "react-icons/fa";
 import { BsPersonFillCheck } from "react-icons/bs";
+import { AiFillAppstore } from "react-icons/ai";
 
 type UserRole = "Client" | "Administrator" | "SystemAdministrator";
 
@@ -20,8 +21,15 @@ interface SidebarType {
 export const sideBardata: SidebarType[] = [
   {
     id: 1,
-    title: "Users",
+    title: "Dashboard",
     link: "/dashboard",
+    logo: <AiFillAppstore className="text-2xl" size={24} />,
+    role: ["Client"],
+  },
+  {
+    id: 1,
+    title: "Users",
+    link: "/users",
     logo: <FaUser className="text-2xl" size={24} />,
     role: ["Client"],
   },
