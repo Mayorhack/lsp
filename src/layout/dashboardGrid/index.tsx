@@ -5,17 +5,17 @@ import arrowUp from "../../images/arrowUp.svg";
 import Image from "next/image";
 const gridDetailss = [
   {
-    title: "Number of Users",
+    title: "Number of Requests",
     value: 200,
-    text: "12%",
-    icon: arrowUp,
+    // text: "12%",
+    // icon: arrowUp,
   },
-  { title: "Next Vehicle approval", value: "05/12/2023" },
+  { title: "Pending approvals", value: 5 },
   {
-    title: "Shares Redemption",
+    title: "Number of available vehicles",
     value: 1200,
-    button: "Sell Shares",
-    shares: "shares available",
+    // button: "Sell Shares",
+    // shares: "shares available",
   },
 ];
 
@@ -34,23 +34,23 @@ const DashboardGrid: React.FC = () => {
               <p className="font-semibold text-[30px] lg:text-[36px] leading-[38px] lg:leading-[44px] ">
                 {gridDetail.value}
               </p>
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 {gridDetail?.shares ? (
                   <div className="font-[#101828] text-base font-medium">
                     {gridDetail.shares}
                   </div>
                 ) : null}
-              </div>
+              </div> */}
             </div>
-            <div className="">
+            {/* <div className="">
               {" "}
               {gridDetail?.button ? (
                 <button className="mt-2 py-2 w-[108px] h-[40px] text-[14px] font-semibold leading-5 text-[#fff] bg-primary border-[1px] rounded-lg mb-[14px]">
                   {gridDetail.button}
                 </button>
               ) : null}
-            </div>
-            {gridDetail?.text ? (
+            </div> */}
+            {/* {gridDetail?.text ? (
               <div className="flex mt-4">
                 <Image className="w-5 h-5" src={arrowUp} alt="" />
                 <p className="font-medium text-[14px] leading-5 mr-2 text-[#027A48]">
@@ -60,7 +60,7 @@ const DashboardGrid: React.FC = () => {
                   vs last month
                 </p>
               </div>
-            ) : null}
+            ) : null} */}
           </div>
         ))}
       </div>

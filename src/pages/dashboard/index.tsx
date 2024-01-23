@@ -1,6 +1,7 @@
 import Overlay from "@/components/Overlay";
 import { useState } from "react";
 import DashboardGrid from "@/layout/dashboardGrid";
+import LineGraph from "../../layout/lineChart/index";
 
 const Dashboard = () => {
   const [openState, setOpenState] = useState(false);
@@ -15,10 +16,9 @@ const Dashboard = () => {
       <div className="">
         <DashboardGrid />
       </div>
-      <div onClick={openModal}>Enter</div>
-      <Overlay openState={openState} closeModal={closeModal}>
-        <div className="">bfksdj</div>
-      </Overlay>
+      <div>
+        <LineGraph />
+      </div>
     </>
   );
 };
