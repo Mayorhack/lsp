@@ -12,6 +12,7 @@ import { notifySuccess } from "@/utils/notifier";
 
 const Home = () => {
   const [requestForm, setRequestForm] = useState<VehicleRequestType>({
+    emailAddress: "",
     vehicleType: "",
     destination: "",
     purpose: "",
@@ -42,6 +43,7 @@ const Home = () => {
       onSuccess: () => {
         notifySuccess("SuccessFul");
         setRequestForm({
+          emailAddress: "",
           vehicleType: "",
           destination: "",
           purpose: "",
@@ -72,8 +74,15 @@ const Home = () => {
           onSubmit={(e) => {
             e.preventDefault();
             makeRequest.mutate();
-          }}
-        >
+          }}>
+          <FormInput
+            label=""
+            placeholder="Email Address"
+            onChange={handleChange}
+            value={requestForm.emailAddress}
+            name="destination"
+            required
+          />
           <FormSelect
             options={[{ name: "test", code: "TEST" }]}
             placeholder="Select Vehicle Type"

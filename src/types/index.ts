@@ -28,6 +28,7 @@ export interface TableFilters {
   pageSize: number;
 }
 export type VehicleRequestType = {
+  emailAddress: string;
   vehicleType: string;
   destination: string;
   purpose: string;
