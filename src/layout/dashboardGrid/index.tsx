@@ -20,7 +20,7 @@ const gridDetailss = [
   },
 ];
 
-const DashboardGrid: React.FC = ({ count }: any) => {
+const DashboardGrid = ({ count }: { count: any }) => {
   return (
     <div className="font-inter">
       <div className="grid grid-cols-240 gap-5 lg:gap-6 m-4 lg:m-8">

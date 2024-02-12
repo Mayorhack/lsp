@@ -1,7 +1,7 @@
 import { errorHandler } from "@/lib/errorHandler";
 import connectToMongoDb from "@/lib/mongodb";
 import User from "@/models/user";
-import { ResponseService, UserFilters, UserType } from "@/types";
+import { ResponseService, UserType } from "@/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import { authenticateJWT } from "@/lib/jwtHandler";
@@ -15,7 +15,7 @@ export default async function handler(
     if (code != 200) {
       throw new Error(error, { cause: code });
     }
-    const { method, body, query } = req;
+    const { method, body } = req;
     const payload: UserType = body;
 
     await connectToMongoDb();
