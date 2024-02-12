@@ -19,7 +19,7 @@ const buttonVariants = cva(
       },
       size: {
         default: "p-3 h-12 w-full",
-        sm: "p-2 px-4 h-8 max-w-[120px]",
+        sm: "p-3 px-4 h-10 max-w-[120px]",
         normal: "sm:max-w-[180px] p-3 h-12",
         xs: "max-w-[80px] p-1",
         // lg: "h-11 rounded-md px-8",

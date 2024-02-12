@@ -18,7 +18,7 @@ const config: Config = {
       colors: {
         primary: "#308c63",
         fadedPrimary: "rgb(48, 140, 99, 0.1)",
-        highlight: "#877838",
+        highlight: "#308c63",
       },
 
       gridTemplateColumns: {

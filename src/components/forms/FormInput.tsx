@@ -2,7 +2,7 @@ import React, { InputHTMLAttributes } from "react";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { FormInputProps } from "@/types";
-const inputVariant = cva("rounded-md w-full py-3 px-2 text-inputText  ", {
+const inputVariant = cva("rounded-md w-full py-2 px-2 text-inputText  ", {
   variants: {
     variant: {
       contained: "bg-[#f8f8f8]",

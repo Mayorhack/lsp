@@ -1,17 +1,18 @@
 // Grid.tsx
 
 import React from "react";
-import arrowUp from "../../images/arrowUp.svg";
-import Image from "next/image";
+
 const gridDetailss = [
   {
+    id: 1,
     title: "Number of Requests",
     value: 200,
     // text: "12%",
     // icon: arrowUp,
   },
-  { title: "Pending approvals", value: 5 },
+  { id: 2, title: "Pending approvals", value: 5 },
   {
+    id: 3,
     title: "Number of available vehicles",
     value: 1200,
     // button: "Sell Shares",
@@ -19,20 +20,25 @@ const gridDetailss = [
   },
 ];
 
-const DashboardGrid: React.FC = () => {
+const DashboardGrid: React.FC = ({ count }: any) => {
   return (
     <div className="font-inter">
       <div className="grid grid-cols-240 gap-5 lg:gap-6 m-4 lg:m-8">
         {gridDetailss.map((gridDetail) => (
           <div
             className="bg-white rounded-xl shadow-sm px-4 border-[1px] border-[#EAECF0] py-5 lg:p-6 h-[158px] lg:h-[176px]"
-            key={gridDetail.title}>
+            key={gridDetail.title}
+          >
             <h2 className="font-[#101828] text-base font-medium">
               {gridDetail.title}
             </h2>
             <div className="flex justify-between items-center mt-5 lg:mt-6">
               <p className="font-semibold text-[30px] lg:text-[36px] leading-[38px] lg:leading-[44px] ">
-                {gridDetail.value}
+                {gridDetail.id === 1
+                  ? count?.requestCount
+                  : gridDetail.id === 2
+                  ? count?.pendingCount
+                  : gridDetail.value}
               </p>
               {/* <div className="flex items-center">
                 {gridDetail?.shares ? (

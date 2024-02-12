@@ -45,6 +45,14 @@ export type UserType = {
   password: string;
   email: string;
 };
+export type VehicleType = {
+  vehicleId: Number;
+  vehicleName: string;
+  plateNumber: string;
+  color: string;
+  status: string;
+  createdAt?: string;
+};
 export type ApprovalPayload = {
   status: "Y" | "N";
   approvedBy: string;
@@ -80,10 +88,17 @@ export interface RequestDetails {
   createdAt: string;
   updatedAt: string;
   requestId: number;
+  driver: string;
 }
 export interface UserFilters {
   username?: string | string[];
 }
 export interface RequestFilters {
   username?: string | string[];
+}
+export interface VehicleFilters {
+  plateNumber?: string | string[];
+  status?: string | string[];
+  color?: string | string[];
+  vehicleName?: string | string[];
 }

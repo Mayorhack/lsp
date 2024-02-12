@@ -1,3 +1,4 @@
+import transporter from "@/lib/emailService";
 import { errorHandler } from "@/lib/errorHandler";
 import { authenticateJWT } from "@/lib/jwtHandler";
 import connectToMongoDb from "@/lib/mongodb";
@@ -61,10 +62,24 @@ export default async function handler(
           !payload.destination &&
           !payload.officersCount &&
           !payload.tripDuration &&
-          !payload.initiatedBy
+          !payload.initiatedBy &&
+          !payload.emailAddress
         ) {
           throw new Error("Payload Incomplete", { cause: 400 });
         }
+        var mailOptions = {
+          from: "brant.benjamyn@dealoaks.com",
+          to: payload.emailAddress,
+          subject: "Vehicle Request",
+          text: `A veicle Request has been made by ${payload.initiatedBy} to ${payload.destination}`,
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log("Email sent: wh" + info.response);
+          }
+        });
         await VehicleRequest.create({ ...payload, status: "Pending" });
         return res.status(201).json({
           code: "00",

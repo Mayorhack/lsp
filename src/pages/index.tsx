@@ -4,13 +4,39 @@ import FormSelect from "@/components/forms/FormSelect";
 import FormInput from "@/components/forms/FormInput";
 import Image from "next/image";
 import Button from "@/components/Button";
-import { VehicleRequestType } from "@/types";
-import { useMutation } from "@tanstack/react-query";
+import {
+  ResponseService,
+  SelectOptionProp,
+  VehicleRequestType,
+  VehicleType,
+} from "@/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axios-instance";
 import ScreenLoader from "@/components/ScreenLoader";
 import { notifySuccess } from "@/utils/notifier";
+import { AxiosResponse } from "axios";
 
 const Home = () => {
+  const { data: vehicleData } = useQuery<
+    AxiosResponse<ResponseService<VehicleType[]>>
+  >(["allVehicles"], () =>
+    axiosInstance.request({
+      method: "get",
+      url: "/vehicles",
+      params: {
+        pageIndex: 0,
+        pageSize: 1000,
+      },
+    })
+  );
+  const vehicleList: SelectOptionProp[] = vehicleData?.data.data
+    ? vehicleData.data.data.map((item) => {
+        return {
+          name: item.vehicleName,
+          code: item.vehicleName,
+        };
+      })
+    : [];
   const [requestForm, setRequestForm] = useState<VehicleRequestType>({
     emailAddress: "",
     vehicleType: "",
@@ -62,7 +88,7 @@ const Home = () => {
           <Image src={Logo} alt="Logo" />
         </span>
         <div className=" flex justify-center items-center flex-col py-8 text-[#101828]">
-          <h1 className="font-semibold text-[25px] leading-[25px] md:text-[48px] md:leading-[30px] md:w-[474px] md:h-[28px]">
+          <h1 className="font-semibold text-2xl  md:text-5xl  ">
             Vehicle Request Form
           </h1>
           <p className="text-center mt-4">
@@ -74,17 +100,18 @@ const Home = () => {
           onSubmit={(e) => {
             e.preventDefault();
             makeRequest.mutate();
-          }}>
+          }}
+        >
           <FormInput
             label=""
             placeholder="Email Address"
             onChange={handleChange}
             value={requestForm.emailAddress}
-            name="destination"
+            name="emailAddress"
             required
           />
           <FormSelect
-            options={[{ name: "test", code: "TEST" }]}
+            options={vehicleList}
             placeholder="Select Vehicle Type"
             onChange={handleChange}
             value={requestForm.vehicleType}

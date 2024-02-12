@@ -1,10 +1,9 @@
 import { errorHandler } from "@/lib/errorHandler";
 import connectToMongoDb from "@/lib/mongodb";
-import User from "@/models/user";
-import { ResponseService, UserFilters, UserType } from "@/types";
+import { ResponseService, VehicleFilters, VehicleType } from "@/types";
 import { NextApiRequest, NextApiResponse } from "next";
-import bcrypt from "bcrypt";
 import { authenticateJWT } from "@/lib/jwtHandler";
+import Vehicle from "@/models/vehicles";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseService<any>>
@@ -15,62 +14,74 @@ export default async function handler(
       throw new Error(error, { cause: code });
     }
     const { method, body, query } = req;
-    const payload: UserType = body;
+    const payload: VehicleType = body;
 
     await connectToMongoDb();
     switch (method) {
       case "GET": {
         const pageIndex = Number(query.pageIndex) || 0;
         const pageSize = Number(query.pageSize) || 10;
-        let filters: UserFilters = {};
-        if (query.username) {
-          filters.username = query.username;
+        let filters: VehicleFilters = {};
+        if (query.color) {
+          filters.color = query.color;
         }
+        if (query.plateNumber) {
+          filters.plateNumber = query.plateNumber;
+        }
+        if (query.vehicleName) {
+          filters.vehicleName = query.vehicleName;
+        }
+        if (query.status) {
+          filters.status = query.status;
+        }
+
         let hasNextPage;
         let hasPrevPage;
         let totalPages;
-        const count = await User.find(filters).countDocuments();
+        const count = await Vehicle.find(filters).countDocuments();
 
         if (count) {
           hasNextPage = (pageIndex + 1) * pageSize < count;
           hasPrevPage = pageIndex > 1;
           totalPages = Math.ceil(count / pageSize);
         }
-        const users = await User.find(filters)
-          .select("-password")
+        const vehicles = await Vehicle.find(filters)
           .skip(pageIndex)
           .limit(pageSize);
-
-        if (users != null)
+        if (vehicles != null)
           return res.status(200).json({
             code: "00",
             hasNextPage,
             hasPrevPage,
             totalPages,
-            data: users,
+            data: vehicles,
           });
         else {
-          throw new Error("Could fetch user", { cause: 400 });
+          throw new Error("Could fetch Vehicles", { cause: 400 });
         }
       }
       case "POST": {
-        if (
-          !payload.firstname &&
-          !payload.lastname &&
-          !payload.password &&
-          !payload.email
-        ) {
+        if (payload.vehicleId) {
+          await Vehicle.findOneAndUpdate(
+            { vehicleId: payload.vehicleId },
+            { ...payload },
+            { new: true }
+          );
+          return res.status(201).json({
+            code: "00",
+            message: "Vehicle Updated Successfully",
+          });
+        }
+        if (!payload.vehicleName && !payload.color && !payload.plateNumber) {
           throw new Error("Information Incomplete", { cause: 400 });
         }
-        const hashedPassword = await bcrypt.hash(payload.password, 10);
-        await User.create({
+
+        await Vehicle.create({
           ...payload,
-          password: hashedPassword,
-          status: "active",
         });
         return res.status(201).json({
           code: "00",
-          message: "User Created Successfully",
+          message: "Vehicle Created Successfully",
         });
       }
       default:

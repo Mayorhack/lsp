@@ -1,16 +1,21 @@
 import Button from "@/components/Button";
 import Overlay from "@/components/Overlay";
+import FormInput from "@/components/forms/FormInput";
 import { RequestDetails, ResponseService } from "@/types";
 import { formatDate } from "@/utils";
 import axiosInstance from "@/utils/axios-instance";
-import { useQuery } from "@tanstack/react-query";
+import { successAlert } from "@/utils/sweetAlert";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 const Details = () => {
   const router = useRouter();
   const { id } = router.query;
+  const { data: session } = useSession();
+
   const { data } = useQuery<AxiosResponse<ResponseService<RequestDetails>>>(
     ["requestById"],
     () =>
@@ -19,6 +24,35 @@ const Details = () => {
         url: `/requests/${id}`,
       })
   );
+  const [driver, setDriver] = useState("");
+  const approveRequest = useMutation(
+    () =>
+      axiosInstance.request({
+        url: "/requests/approve",
+        method: "POST",
+        data: { requestId: id, approvedBy: session?.username, status: "Y" },
+      }),
+    {
+      onSuccess: (data) => {
+        successAlert(data?.data.message || "Record Updated Successfully");
+        closeApproveModal();
+      },
+    }
+  );
+  const assignRequest = useMutation(
+    () =>
+      axiosInstance.request({
+        url: "/requests/assign",
+        method: "POST",
+        data: { requestId: id, driver },
+      }),
+    {
+      onSuccess: (data) => {
+        successAlert(data?.data.message || "Record Updated Successfully");
+        closeAssignModal();
+      },
+    }
+  );
   const vehicleData = data?.data.data;
   const [openApproveState, setOpenApproveState] = useState(false);
   const openApproveModal = () => {
@@ -26,6 +60,13 @@ const Details = () => {
   };
   const closeApproveModal = () => {
     setOpenApproveState(false);
+  };
+  const [openAssignState, setOpenAssignState] = useState(false);
+  const openAssignModal = () => {
+    setOpenAssignState(true);
+  };
+  const closeAssignModal = () => {
+    setOpenAssignState(false);
   };
   return (
     <>
@@ -61,17 +102,66 @@ const Details = () => {
           <p>Initiated By</p>
           <p className="text-lg font-bold">{vehicleData?.initiatedBy}</p>
           <p>Approved By</p>
-          <p className="text-lg font-bold">{vehicleData?.approvedBy}</p>
+          <p className="text-lg font-bold">
+            {vehicleData?.approvedBy || "None"}
+          </p>
+          <p>Driver</p>
+          <p className="text-lg font-bold">{vehicleData?.driver || "None"}</p>
         </div>
         <div className="flex justify-between">
           <Button className="w-40 bg-green-600" onClick={openApproveModal}>
             Approve
           </Button>
-          <Button className="w-40 ">Assign Driver</Button>
+          <Button className="w-40 " onClick={openAssignModal}>
+            Assign Driver
+          </Button>
         </div>
       </div>
-      <Overlay openState={openApproveState} closeModal={closeApproveModal}>
-        <div className="">bfksdj</div>
+      <Overlay
+        openState={openApproveState}
+        closeModal={closeApproveModal}
+        size={"sm"}
+      >
+        <div className="p-4 text-center">
+          <h3 className="text-2xl">
+            Are you sure you want to perform this action
+          </h3>
+          <div className="flex justify-center">
+            <Button
+              onClick={() => approveRequest.mutate()}
+              className="w-40 p-2 h-10 mt-4"
+            >
+              Yes
+            </Button>
+          </div>
+        </div>
+      </Overlay>
+      <Overlay
+        openState={openAssignState}
+        closeModal={closeAssignModal}
+        size={"sm"}
+      >
+        <div className="p-4 text-center">
+          <h3 className="text-2xl">
+            Please input the driver&apos;s name to be assign to this request
+          </h3>
+          <div className="mt-4">
+            <FormInput
+              placeholder="Input Driver Name"
+              name="driver"
+              value={driver}
+              onChange={(e) => setDriver(e.target.value)}
+            />
+          </div>
+          <div className="flex justify-center">
+            <Button
+              onClick={() => assignRequest.mutate()}
+              className="w-40 p-2 h-10 mt-4"
+            >
+              Submit
+            </Button>
+          </div>
+        </div>
       </Overlay>
     </>
   );

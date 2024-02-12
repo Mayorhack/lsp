@@ -20,7 +20,7 @@ const FormSelect: FC<SelectProps> = ({
       onChange={onChange}
       name={name}
       className={cn(
-        " rounded-md w-full py-3 px-2 text-inputText  border-2 border-inputColor focus:outline-4  border-[#D0D5DD] focus:outline-none focus:border-[#32D583] focus:ring-1 focus:[#32D583] ",
+        " rounded-md w-full py-2 px-2 text-inputText  border-2 border-inputColor focus:outline-4  border-[#D0D5DD] focus:outline-none focus:border-[#32D583] focus:ring-1 focus:[#32D583] ",
         className
       )}
       {...props}

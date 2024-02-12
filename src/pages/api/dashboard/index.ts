@@ -5,6 +5,7 @@ import { ResponseService, UserFilters, UserType } from "@/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import { authenticateJWT } from "@/lib/jwtHandler";
+import VehicleRequest from "@/models/request";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseService<any>>
@@ -20,37 +21,18 @@ export default async function handler(
     await connectToMongoDb();
     switch (method) {
       case "GET": {
-        const pageIndex = Number(query.pageIndex) || 0;
-        const pageSize = Number(query.pageSize) || 10;
-        let filters: UserFilters = {};
-        if (query.username) {
-          filters.username = query.username;
-        }
-        let hasNextPage;
-        let hasPrevPage;
-        let totalPages;
-        const count = await User.find(filters).countDocuments();
-
-        if (count) {
-          hasNextPage = (pageIndex + 1) * pageSize < count;
-          hasPrevPage = pageIndex > 1;
-          totalPages = Math.ceil(count / pageSize);
-        }
-        const users = await User.find(filters)
-          .select("-password")
-          .skip(pageIndex)
-          .limit(pageSize);
-
-        if (users != null)
+        const userCount = await User.find().countDocuments();
+        const requestCount = await VehicleRequest.find().countDocuments();
+        const pendingCount = await VehicleRequest.find({
+          status: "Pending",
+        }).countDocuments();
+        if (userCount != null)
           return res.status(200).json({
             code: "00",
-            hasNextPage,
-            hasPrevPage,
-            totalPages,
-            data: users,
+            data: { userCount, requestCount, pendingCount },
           });
         else {
-          throw new Error("Could fetch user", { cause: 400 });
+          throw new Error("Could fetch dashboard data", { cause: 400 });
         }
       }
       case "POST": {
