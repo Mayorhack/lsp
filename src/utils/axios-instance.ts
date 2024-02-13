@@ -10,7 +10,7 @@ function getToken() {
   }
   return null;
 }
-const BASEURL = process.env.NEXTAUTH_URL || "http://localhost:3000/api";
+const BASEURL = process.env.NEXTAUTH_URL || "https://lsp-theta.vercel.app/api";
 
 const axiosInstance = axios.create({
   baseURL: BASEURL,

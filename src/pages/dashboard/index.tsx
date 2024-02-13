@@ -11,7 +11,7 @@ const Dashboard = () => {
     () =>
       axiosInstance.request({
         method: "GET",
-        url: "dashboard",
+        url: "/dashboard",
       })
   );
   const counts = data?.data.data;
