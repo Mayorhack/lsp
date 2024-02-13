@@ -22,7 +22,7 @@ const Home = () => {
   >(["allVehicles"], () =>
     axiosInstance.request({
       method: "get",
-      url: "/vehicles",
+      url: "/vehicles/lookup",
       params: {
         pageIndex: 0,
         pageSize: 1000,
