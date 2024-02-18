@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axios-instance";
 import { ResponseService } from "@/types";
 import { AxiosResponse } from "axios";
+import { useSession } from "next-auth/react";
+import { months } from "@/data";
 
 const Dashboard = () => {
   const { data } = useQuery<AxiosResponse<ResponseService<any>>>(
@@ -14,14 +16,28 @@ const Dashboard = () => {
         url: "/dashboard",
       })
   );
+  const { data: session } = useSession();
   const counts = data?.data.data;
+
+  const requestSummary = data?.data.data.requestSummaryList.length
+    ? months.map((item, i) => {
+        if (data.data.data.requestSummaryList[i]) {
+          return {
+            ...item,
+            requests: data.data.data.requestSummaryList[i].requests,
+          };
+        }
+        return item;
+      })
+    : [];
   return (
     <>
-      <div className="">
+      <div className="pt-10">
+        <p className="text-2xl capitalize">Welcome {session?.username}</p>
         <DashboardGrid count={counts} />
       </div>
       <div>
-        <LineGraph />
+        <LineGraph requestSummary={requestSummary} />
       </div>
     </>
   );

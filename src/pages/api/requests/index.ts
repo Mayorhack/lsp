@@ -41,6 +41,7 @@ export default async function handler(
         const requests: VehicleRequestType[] = await VehicleRequest.find(
           filters
         )
+          .sort({ createdAt: "desc" })
           .skip(pageIndex)
           .limit(pageSize);
         if (requests != null)

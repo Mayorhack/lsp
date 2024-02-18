@@ -8,8 +8,10 @@ import { successAlert } from "@/utils/sweetAlert";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { FiArrowLeft } from "react-icons/fi";
 
 const Details = () => {
   const router = useRouter();
@@ -70,6 +72,12 @@ const Details = () => {
   };
   return (
     <>
+      <Link
+        href={"/approvals"}
+        className="cursor-pointer flex items-center gap-1 mb-4"
+      >
+        <FiArrowLeft /> Back
+      </Link>
       <div className="bg-white max-w-lg w-full rounded-md p-4">
         <h2 className="text-2xl font-bold">Vehicle Request Details</h2>
         <p
@@ -109,10 +117,14 @@ const Details = () => {
           <p className="text-lg font-bold">{vehicleData?.driver || "None"}</p>
         </div>
         <div className="flex justify-between">
-          <Button className="w-40 bg-green-600" onClick={openApproveModal}>
+          <Button
+            className="w-40 bg-green-600"
+            onClick={openApproveModal}
+            disabled={vehicleData?.status === "Approved"}
+          >
             Approve
           </Button>
-          <Button className="w-40 " onClick={openAssignModal}>
+          <Button className="w-40 bg-blue-500" onClick={openAssignModal}>
             Assign Driver
           </Button>
         </div>

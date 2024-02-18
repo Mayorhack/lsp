@@ -1,3 +1,4 @@
+import transporter from "@/lib/emailService";
 import { errorHandler } from "@/lib/errorHandler";
 import { authenticateJWT } from "@/lib/jwtHandler";
 import connectToMongoDb from "@/lib/mongodb";
@@ -24,6 +25,19 @@ export default async function requestHandler(
           { status: status === "Y" ? "Approved" : "Rejected", approvedBy },
           { new: true }
         );
+        var mailOptions = {
+          from: "LASEPA",
+          to: vehiclerequest.emailAddress,
+          subject: "Vehicle Request",
+          text: `A veicle Request has been approve by ${approvedBy} to ${vehiclerequest.destination}`,
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log("Email sent: wh" + info.response);
+          }
+        });
         if (vehiclerequest) {
           return res
             .status(200)

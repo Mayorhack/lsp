@@ -32,7 +32,7 @@ const DashboardLayout = ({ children }: DashboardLayoutPropsType) => {
     <div className="">
       <Sidebar />
       <div className=" bg-[#f9f9f9] lg:ml-[250px] lg:px-14 px-8 min-h-screen">
-        <Header />
+        <Header name={data?.username || ""} />
         <main className="">{children}</main>
       </div>
     </div>

@@ -46,6 +46,7 @@ export default async function handler(
           totalPages = Math.ceil(count / pageSize);
         }
         const vehicles = await Vehicle.find(filters)
+          .sort({ createdAt: "desc" })
           .skip(pageIndex)
           .limit(pageSize);
         if (vehicles != null)

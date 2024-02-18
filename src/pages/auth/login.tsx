@@ -78,7 +78,7 @@ const Login = () => {
               onChange={handleChange}
             />
           </div>
-          <Button className={"w-full py-2"}>Submit</Button>
+          <Button className={"w-full py-2 mt-5"}>Submit</Button>
         </form>
       </div>
       {loading ? <ScreenLoader /> : null}

@@ -37,6 +37,7 @@ export default async function handler(
           totalPages = Math.ceil(count / pageSize);
         }
         const users = await User.find(filters)
+          .sort({ createdAt: "desc" })
           .select("-password")
           .skip(pageIndex)
           .limit(pageSize);

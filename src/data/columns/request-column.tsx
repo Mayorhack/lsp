@@ -115,7 +115,7 @@ const Action = ({ row }: { row: RequestDetails }) => {
     <Link href={`/approvals/${row.requestId}`}>
       {" "}
       <Button variant={"outlined"} size={"sm"}>
-        Open
+        View
       </Button>
     </Link>
   );

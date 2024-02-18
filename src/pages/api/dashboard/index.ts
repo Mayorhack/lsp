@@ -6,6 +6,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import { authenticateJWT } from "@/lib/jwtHandler";
 import VehicleRequest from "@/models/request";
+import Vehicle from "@/models/vehicles";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseService<any>>
@@ -23,13 +24,46 @@ export default async function handler(
       case "GET": {
         const userCount = await User.find().countDocuments();
         const requestCount = await VehicleRequest.find().countDocuments();
+        const requestSummary = await VehicleRequest.aggregate([
+          {
+            $project: {
+              month: { $month: "$createdAt" }, // Extract month from the createdAt field
+
+              request: 1, // Keep the request field
+            },
+          },
+          {
+            $group: {
+              _id: { month: "$month" }, // Group by year and month
+              totalRequests: { $sum: 1 }, // Count the number of requests for each group
+            },
+          },
+          {
+            $sort: {
+              "_id.month": 1,
+            },
+          },
+        ]);
+        const requestSummaryList = requestSummary.map((item) => {
+          return {
+            name: item._id.month,
+            requests: item.totalRequests,
+          };
+        });
         const pendingCount = await VehicleRequest.find({
           status: "Pending",
         }).countDocuments();
+        const vehicleCount = await Vehicle.find().countDocuments();
         if (userCount != null)
           return res.status(200).json({
             code: "00",
-            data: { userCount, requestCount, pendingCount },
+            data: {
+              userCount,
+              requestCount,
+              pendingCount,
+              vehicleCount,
+              requestSummaryList,
+            },
           });
         else {
           throw new Error("Could fetch dashboard data", { cause: 400 });
