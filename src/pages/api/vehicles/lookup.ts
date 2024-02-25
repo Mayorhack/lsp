@@ -39,7 +39,10 @@ export default async function handler(
           hasPrevPage = pageIndex > 1;
           totalPages = Math.ceil(count / pageSize);
         }
-        const vehicles = await Vehicle.find(filters)
+        const vehicles = await Vehicle.find({
+          ...filters,
+          requestId: { $exists: false },
+        })
           .skip(pageIndex)
           .limit(pageSize);
         if (vehicles != null)

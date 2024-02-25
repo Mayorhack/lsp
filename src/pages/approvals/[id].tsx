@@ -1,11 +1,12 @@
 import Button from "@/components/Button";
 import Overlay from "@/components/Overlay";
+import ScreenLoader from "@/components/ScreenLoader";
 import FormInput from "@/components/forms/FormInput";
 import { RequestDetails, ResponseService } from "@/types";
 import { formatDate } from "@/utils";
 import axiosInstance from "@/utils/axios-instance";
 import { successAlert } from "@/utils/sweetAlert";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -14,17 +15,18 @@ import { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 
 const Details = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const { id } = router.query;
   const { data: session } = useSession();
 
-  const { data } = useQuery<AxiosResponse<ResponseService<RequestDetails>>>(
-    ["requestById"],
-    () =>
-      axiosInstance.request({
-        method: "GET",
-        url: `/requests/${id}`,
-      })
+  const { data, isLoading } = useQuery<
+    AxiosResponse<ResponseService<RequestDetails>>
+  >(["requestById"], () =>
+    axiosInstance.request({
+      method: "GET",
+      url: `/requests/${id}`,
+    })
   );
   const [driver, setDriver] = useState("");
   const approveRequest = useMutation(
@@ -37,6 +39,7 @@ const Details = () => {
     {
       onSuccess: (data) => {
         successAlert(data?.data.message || "Record Updated Successfully");
+        queryClient.invalidateQueries(["requestById"]);
         closeApproveModal();
       },
     }
@@ -93,7 +96,9 @@ const Details = () => {
         </p>
         <div className="grid grid-cols-2 gap-y-5 my-6">
           <p>Vehicle Name</p>
-          <p className="text-lg font-bold">{vehicleData?.vehicleType}</p>
+          <p className="text-lg font-bold">
+            {vehicleData?.vehicle?.vehicleName}
+          </p>
           <p>Date Created</p>
           <p className="text-lg font-bold">
             {formatDate(vehicleData?.createdAt || "")}
@@ -125,7 +130,7 @@ const Details = () => {
             Approve
           </Button>
           <Button className="w-40 bg-blue-500" onClick={openAssignModal}>
-            Assign Driver
+            {!vehicleData?.driver ? " Assign Driver" : "Reassign Driver"}
           </Button>
         </div>
       </div>
@@ -175,6 +180,9 @@ const Details = () => {
           </div>
         </div>
       </Overlay>
+      {approveRequest.isLoading || assignRequest.isLoading || isLoading ? (
+        <ScreenLoader />
+      ) : null}
     </>
   );
 };

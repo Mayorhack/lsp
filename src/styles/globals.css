@@ -93,3 +93,12 @@ body {
   transform: rotate(330deg) translate(0, -130%);
   animation-delay: -0.1s;
 }
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.react-datepicker__input-container:focus-visible {
+  @apply outline-none;
+}
+.react-datepicker__input-container input:focus {
+  @apply border-2  focus:outline-4  border-[#D0D5DD] focus:outline-none focus:border-[#32D583] focus:ring-1;
+}

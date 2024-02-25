@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 
 export default function App({
@@ -31,6 +32,9 @@ export default function App({
   });
   return (
     <SessionProvider session={session}>
+      <Head>
+        <title>Lasepa</title>
+      </Head>
       <QueryClientProvider client={queryClient}>
         <Layout>
           <Component {...pageProps} />

@@ -7,6 +7,7 @@ import bcrypt from "bcrypt";
 import { authenticateJWT } from "@/lib/jwtHandler";
 import VehicleRequest from "@/models/request";
 import Vehicle from "@/models/vehicles";
+import { months } from "@/data";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseService<any>>
@@ -27,8 +28,7 @@ export default async function handler(
         const requestSummary = await VehicleRequest.aggregate([
           {
             $project: {
-              month: { $month: "$createdAt" }, // Extract month from the createdAt field
-
+              month: { $month: "$tripDuration" }, // Extract month from the createdAt field
               request: 1, // Keep the request field
             },
           },
@@ -50,6 +50,10 @@ export default async function handler(
             requests: item.totalRequests,
           };
         });
+        const requestList = months.map((_, i) => {
+          const found = requestSummaryList.find((obj) => obj.name === i + 1);
+          return found ? found : { name: i + 1, requests: 0 };
+        });
         const pendingCount = await VehicleRequest.find({
           status: "Pending",
         }).countDocuments();
@@ -62,7 +66,7 @@ export default async function handler(
               requestCount,
               pendingCount,
               vehicleCount,
-              requestSummaryList,
+              requestList,
             },
           });
         else {

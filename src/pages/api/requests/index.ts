@@ -3,6 +3,7 @@ import { errorHandler } from "@/lib/errorHandler";
 import { authenticateJWT } from "@/lib/jwtHandler";
 import connectToMongoDb from "@/lib/mongodb";
 import VehicleRequest from "@/models/request";
+import Vehicle from "@/models/vehicles";
 import { RequestFilters, ResponseService, VehicleRequestType } from "@/types";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -38,9 +39,8 @@ export default async function handler(
           hasPrevPage = pageIndex > 1;
           totalPages = Math.ceil(count / pageSize);
         }
-        const requests: VehicleRequestType[] = await VehicleRequest.find(
-          filters
-        )
+        const requests: any[] = await VehicleRequest.find(filters)
+          .populate("vehicle")
           .sort({ createdAt: "desc" })
           .skip(pageIndex)
           .limit(pageSize);
@@ -56,7 +56,7 @@ export default async function handler(
           throw new Error("Could fetch request", { cause: 400 });
         }
       }
-      case "POST":
+      case "POST": {
         if (
           !payload.vehicleType &&
           !payload.purpose &&
@@ -64,10 +64,12 @@ export default async function handler(
           !payload.officersCount &&
           !payload.tripDuration &&
           !payload.initiatedBy &&
-          !payload.emailAddress
+          !payload.emailAddress &&
+          !payload.vehicle
         ) {
           throw new Error("Payload Incomplete", { cause: 400 });
         }
+        const requestId = new Date().getTime();
         var mailOptions = {
           from: "brant.benjamyn@dealoaks.com",
           to: payload.emailAddress,
@@ -81,12 +83,23 @@ export default async function handler(
             console.log("Email sent: wh" + info.response);
           }
         });
-        await VehicleRequest.create({ ...payload, status: "Pending" });
+        await VehicleRequest.create({
+          ...payload,
+          status: "Pending",
+          requestId,
+        });
+        await Vehicle.findOneAndUpdate(
+          { vehicleId: payload.vehicle?.vehicleId },
+          { requestId, status: "In Use" },
+          { new: true }
+        );
+
         return res.status(201).json({
           code: "00",
           data: payload,
           message: "Created Successfully",
         });
+      }
       default:
         res.setHeader("Allow", ["GET", "PUT", "POST"]);
         res.status(405).end(`Method ${method} Not Allowed`);

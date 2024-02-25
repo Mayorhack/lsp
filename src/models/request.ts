@@ -3,40 +3,25 @@ import mongoose, { Schema, model, models } from "mongoose";
 const requestSchema = new Schema(
   {
     requestId: { type: Number, unique: true },
-    vehicleType: { type: String, required: true },
     destination: { type: String, required: true },
     purpose: { type: String, required: true },
     officersCount: { type: String, required: true },
     tripDuration: Date,
+    emailAddress: { type: String, required: true },
     initiatedBy: { type: String, required: true },
     approvedBy: { type: String },
     status: { type: String, default: "Pending" },
     driver: { type: String },
+    vehicle: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Vehicle",
+    },
   },
   {
     timestamps: true,
   }
 );
-requestSchema.pre("save", async function (next) {
-  const request = this;
-  if (!request.isNew) {
-    return next();
-  }
-  try {
-    const highestRequest = await mongoose
-      .model("VehicleRequest", requestSchema)
-      .findOne({}, {}, { sort: { requestId: -1 } });
 
-    request.requestId =
-      (highestRequest && highestRequest.requestId
-        ? highestRequest.requestId
-        : 0) + 1;
-
-    next();
-  } catch (error: any) {
-    return next(error);
-  }
-});
 requestSchema.set("toJSON", {
   getters: true,
   virtuals: false,

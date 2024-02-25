@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
-import { FaUser } from "react-icons/fa";
+import { FaCheckCircle, FaUser } from "react-icons/fa";
 import { FaCarSide } from "react-icons/fa";
-import { BsPersonFillCheck } from "react-icons/bs";
 import { AiFillAppstore } from "react-icons/ai";
 
 type UserRole = "Client" | "Administrator" | "SystemAdministrator";
@@ -46,7 +45,7 @@ export const sideBardata: SidebarType[] = [
     id: 1,
     title: "Approvals",
     link: "/approvals",
-    logo: <BsPersonFillCheck className="text-xl" size={24} />,
+    logo: <FaCheckCircle className="text-xl" size={24} />,
     role: ["Client"],
   },
 ];

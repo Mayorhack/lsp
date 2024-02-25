@@ -19,20 +19,21 @@ const Dashboard = () => {
   const { data: session } = useSession();
   const counts = data?.data.data;
 
-  const requestSummary = data?.data.data.requestSummaryList.length
+  const requestSummary = data?.data.data.requestList?.length
     ? months.map((item, i) => {
-        if (data.data.data.requestSummaryList[i]) {
+        if (data.data.data.requestList[i]) {
           return {
             ...item,
-            requests: data.data.data.requestSummaryList[i].requests,
+            requests: data.data.data.requestList[i].requests,
           };
         }
         return item;
       })
     : [];
+
   return (
     <>
-      <div className="pt-10">
+      <div className="">
         <p className="text-2xl capitalize">Welcome {session?.username}</p>
         <DashboardGrid count={counts} />
       </div>

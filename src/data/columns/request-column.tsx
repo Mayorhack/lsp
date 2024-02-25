@@ -17,7 +17,7 @@ export const columns: ColumnDef<RequestDetails>[] = [
       <DataTableColumnHeader column={column} title="Date Created" />
     ),
     cell: ({ row }) => (
-      <div className="w-[120px]">{formatDate(row.original.createdAt)}</div>
+      <div className="w-[160px]">{formatDate(row.original.createdAt)}</div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -28,7 +28,7 @@ export const columns: ColumnDef<RequestDetails>[] = [
       <DataTableColumnHeader column={column} title="Vehicle" />
     ),
     cell: ({ row }) => (
-      <div className="w-[80px]">{row.getValue("vehicleType")}</div>
+      <div className="w-[80px]">{row.original?.vehicle?.vehicleName || ""}</div>
     ),
     enableSorting: false,
     enableHiding: false,

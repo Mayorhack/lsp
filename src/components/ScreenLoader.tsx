@@ -1,6 +1,6 @@
 const ScreenLoader = () => {
   return (
-    <div className="grid place-items-center h-screen w-screen fixed bg-[rgba(0,0,0,0.5)] inset-0 z-20">
+    <div className="grid place-items-center h-screen w-screen fixed bg-[rgba(0,0,0,0.5)] inset-0 z-[100]">
       <div className="loader">
         <div className="bar1"></div>
         <div className="bar2"></div>

@@ -13,7 +13,7 @@ import { columns } from "@/data/columns/vehicle-column";
 import FormSelect from "@/components/forms/FormSelect";
 import { status } from "@/data";
 import { successAlert } from "@/utils/sweetAlert";
-import Loader from "@/components/Loader";
+import ScreenLoader from "@/components/ScreenLoader";
 interface VehicleFilters {
   plateNumber: string;
   status: string;
@@ -100,6 +100,12 @@ const Vehicles = () => {
       onSuccess: () => {
         successAlert("Vehicle Added Successfully");
         setAddVehicleModal(false);
+        setAddVehicleForm({
+          vehicleName: "",
+          plateNumber: "",
+          color: "",
+          status: "Active",
+        });
         queryClient.invalidateQueries(["allVehicles"]);
       },
     }
@@ -224,7 +230,7 @@ const Vehicles = () => {
           </div>
         </form>
       </Overlay>
-      {addVehicle.isLoading ? <Loader /> : null}
+      {addVehicle.isLoading ? <ScreenLoader /> : null}
     </div>
   );
 };

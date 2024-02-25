@@ -6,6 +6,7 @@ const vehicleSchema = new Schema(
     plateNumber: { type: String, required: true },
     color: { type: String },
     status: { type: String, required: true },
+    requestId: { type: String },
   },
   {
     timestamps: true,
@@ -35,7 +36,6 @@ vehicleSchema.set("toJSON", {
   getters: true,
   virtuals: false,
   transform: (doc, ret) => {
-    delete ret._id;
     delete ret.__v;
   },
 });

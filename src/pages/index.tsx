@@ -10,13 +10,15 @@ import {
   VehicleRequestType,
   VehicleType,
 } from "@/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axios-instance";
 import ScreenLoader from "@/components/ScreenLoader";
 import { notifySuccess } from "@/utils/notifier";
 import { AxiosResponse } from "axios";
+import MyDatePicker from "@/components/forms/MyDatePicker";
 
 const Home = () => {
+  const queryClient = useQueryClient();
   const { data: vehicleData } = useQuery<
     AxiosResponse<ResponseService<VehicleType[]>>
   >(["allVehicles"], () =>
@@ -33,17 +35,19 @@ const Home = () => {
     ? vehicleData.data.data.map((item) => {
         return {
           name: item.vehicleName,
-          code: item.vehicleName,
+          code: item.vehicleId.toString(),
         };
       })
     : [];
+  const vehicle = vehicleData?.data.data ? vehicleData.data.data : [];
+
   const [requestForm, setRequestForm] = useState<VehicleRequestType>({
     emailAddress: "",
     vehicleType: "",
     destination: "",
     purpose: "",
     officersCount: "",
-    tripDuration: new Date(),
+    tripDuration: null,
     initiatedBy: "",
     status: "",
   });
@@ -55,6 +59,9 @@ const Home = () => {
     const name = e.target.name;
     const value = e.target.value;
     setRequestForm((prev) => {
+      if (name === "vehicleName") {
+        return { ...prev, vehicleId: Number(value) };
+      }
       return { ...prev, [name]: value };
     });
   };
@@ -63,20 +70,27 @@ const Home = () => {
       axiosInstance.request({
         url: "/requests",
         method: "POST",
-        data: requestForm,
+        data: {
+          ...requestForm,
+          vehicle: vehicle.find(
+            (item) => item.vehicleId === Number(requestForm.vehicleType)
+          ),
+        },
       }),
     {
       onSuccess: () => {
         notifySuccess("SuccessFul");
+        queryClient.invalidateQueries(["allVehicles"]);
         setRequestForm({
           emailAddress: "",
           vehicleType: "",
           destination: "",
           purpose: "",
           officersCount: "",
-          tripDuration: new Date(),
+          tripDuration: null,
           initiatedBy: "",
           status: "",
+          vehicle: undefined,
         });
       },
     }
@@ -143,14 +157,28 @@ const Home = () => {
             name="officersCount"
             required
           />
-          <FormInput
-            label=""
-            placeholder="Estimated duration of field trip (Hours)"
-            onChange={handleChange}
-            value={requestForm.tripDuration?.toString()}
-            name="tripDuration"
-            required
-          />
+          <div className="flex gap-2">
+            <MyDatePicker
+              onChange={(value: Date) => {
+                setRequestForm((prev) => {
+                  return { ...prev, tripDuration: value };
+                });
+              }}
+              selected={requestForm.tripDuration}
+              placeholderText="Date Of Trip"
+            />
+            <MyDatePicker
+              onChange={(value: Date) => {
+                setRequestForm((prev) => {
+                  return { ...prev, tripDuration: value };
+                });
+              }}
+              selected={requestForm.tripDuration}
+              placeholderText="Time Of Trip"
+              showTimeSelect={true}
+            />
+          </div>
+
           <FormInput
             label=""
             placeholder="Field trip initiated by"

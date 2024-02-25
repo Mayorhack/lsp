@@ -37,7 +37,19 @@ export type VehicleRequestType = {
   initiatedBy: string;
   approvedBy?: string;
   status: string;
+
+  vehicle?: VehicleType;
 };
+export interface DateTimeProps {
+  selected?: Date | null | undefined;
+  // eslint-disable-next-line no-unused-vars
+  onChange(date: Date | null): void;
+  name?: string;
+  placeholderText?: string;
+  inline?: boolean;
+  showTimeSelect?: boolean;
+  dateForma?: string | string[] | undefined;
+}
 export type UserType = {
   firstname: string;
   lastname: string;
@@ -89,6 +101,7 @@ export interface RequestDetails {
   updatedAt: string;
   requestId: number;
   driver: string;
+  vehicle?: VehicleType;
 }
 export interface UserFilters {
   username?: string | string[];

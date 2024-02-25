@@ -2,7 +2,7 @@
 
 import React from "react";
 import { FaCar, FaClock } from "react-icons/fa";
-import { FiAirplay } from "react-icons/fi";
+import { HiOutlineDocumentPlus } from "react-icons/hi2";
 
 const gridDetailss = [
   {
@@ -10,14 +10,19 @@ const gridDetailss = [
     title: "Number of Requests",
     value: 200,
     // text: "12%",
-    icon: <FiAirplay />,
+    icon: <HiOutlineDocumentPlus className="text-indigo-500 text-3xl" />,
   },
-  { id: 2, title: "Pending approvals", value: 5, icon: <FaClock /> },
+  {
+    id: 2,
+    title: "Pending approvals",
+    value: 5,
+    icon: <FaClock className="text-yellow-500 text-3xl" />,
+  },
   {
     id: 3,
     title: "Number of available vehicles",
     value: 1200,
-    icon: <FaCar className="text-blue-700" />,
+    icon: <FaCar className="text-purple-700 text-3xl" />,
     // button: "Sell Shares",
     // shares: "shares available",
   },

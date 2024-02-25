@@ -13,10 +13,11 @@ export default async function requestHandler(
   if (code != 200) {
     throw new Error(error, { cause: code });
   }
-
   switch (method) {
     case "GET": {
-      const request = await VehicleRequest.find({ requestId: id });
+      const request = await VehicleRequest.find({ requestId: id }).populate(
+        "vehicle"
+      );
       if (request.length)
         return res.status(200).json({
           code: "00",
