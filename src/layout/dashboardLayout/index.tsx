@@ -31,7 +31,7 @@ const DashboardLayout = ({ children }: DashboardLayoutPropsType) => {
   return (
     <div className="">
       <Sidebar />
-      <div className=" bg-[#f9f9f9] lg:ml-[250px] lg:px-14 px-8 min-h-screen">
+      <div className=" bg-[#f9f9f9] lg:ml-[240px] lg:px-14 px-8 min-h-screen">
         <Header name={data?.username || ""} />
         <main className=" mt-20">{children}</main>
       </div>

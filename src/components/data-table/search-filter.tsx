@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes } from "react";
+import { FC, HTMLAttributes, useState } from "react";
 
 import { FiSliders } from "react-icons/fi";
 import { FiSearch } from "react-icons/fi";
@@ -16,6 +16,7 @@ const SearchFilter: FC<SearchFilterProps> = ({
   clearFilter,
   ...props
 }) => {
+  const [open, setOpen] = useState(false);
   return (
     <div className="flex justify-between items-center space-x-2">
       <div className="relative">
@@ -28,7 +29,7 @@ const SearchFilter: FC<SearchFilterProps> = ({
         </span>
       </div>
 
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger>
           <Button variant="outlined" size="sm" className="max-w-xs">
             <FiSliders className="h-3 w-3 mr-2 transform rotate-90 text-highlight" />
@@ -39,10 +40,23 @@ const SearchFilter: FC<SearchFilterProps> = ({
           <div className="w-60 sm:w-96   bg-white p-2">
             {children}
             <div className="flex justify-between items-center gap-4 mt-6">
-              <Button variant={"dark"} size={"sm"} onClick={clearFilter}>
+              <Button
+                variant={"dark"}
+                size={"sm"}
+                onClick={() => {
+                  clearFilter();
+                  setOpen(false);
+                }}
+              >
                 Clear Filter
               </Button>
-              <Button size={"sm"} onClick={applyFilter}>
+              <Button
+                size={"sm"}
+                onClick={() => {
+                  applyFilter();
+                  setOpen(false);
+                }}
+              >
                 Apply Filter
               </Button>
             </div>

@@ -2,6 +2,11 @@ export const status = [
   { name: "Active", code: "Active" },
   { name: "Inactive", code: "Inactive" },
 ];
+export const approvalStatus = [
+  { name: "Approved", code: "Approved" },
+  { name: "Pending", code: "Pending" },
+  { name: "Rejected", code: "Rejected" },
+];
 export const months = [
   { name: "Jan", requests: 0 },
   { name: "Feb", requests: 0 },

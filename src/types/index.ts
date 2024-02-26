@@ -108,6 +108,7 @@ export interface UserFilters {
 }
 export interface RequestFilters {
   username?: string | string[];
+  status?: string | string[];
 }
 export interface VehicleFilters {
   plateNumber?: string | string[];

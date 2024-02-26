@@ -102,3 +102,10 @@ body {
 .react-datepicker__input-container input:focus {
   @apply border-2  focus:outline-4  border-[#D0D5DD] focus:outline-none focus:border-[#32D583] focus:ring-1;
 }
+.disable::-webkit-scrollbar {
+  display: none;
+}
+.disable {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+}

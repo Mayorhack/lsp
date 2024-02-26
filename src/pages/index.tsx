@@ -126,7 +126,11 @@ const Home = () => {
           />
           <FormSelect
             options={vehicleList}
-            placeholder="Select Vehicle Type"
+            placeholder={
+              vehicleList.length
+                ? "Select Vehicle Type"
+                : "No Vehicles Available"
+            }
             onChange={handleChange}
             value={requestForm.vehicleType}
             name="vehicleType"

@@ -30,6 +30,9 @@ export default async function handler(
         if (query.username) {
           filters.username = query.username;
         }
+        if (query.status) {
+          filters.status = query.status;
+        }
         let hasNextPage;
         let hasPrevPage;
         let totalPages;
