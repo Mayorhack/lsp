@@ -26,7 +26,7 @@ export default async function handler(
           filters.vehicleName = query.vehicleName;
         }
         if (query.status) {
-          filters.status = query.status;
+          filters.status = "Active";
         }
 
         let hasNextPage;
@@ -41,7 +41,7 @@ export default async function handler(
         }
         const vehicles = await Vehicle.find({
           ...filters,
-          requestId: { $exists: false },
+          status: "Active",
         })
           .skip(pageIndex)
           .limit(pageSize);

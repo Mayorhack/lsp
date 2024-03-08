@@ -65,7 +65,7 @@ export default async function handler(
         if (payload.vehicleId) {
           await Vehicle.findOneAndUpdate(
             { vehicleId: payload.vehicleId },
-            { ...payload },
+            { ...payload, requestId: "" },
             { new: true }
           );
           return res.status(201).json({

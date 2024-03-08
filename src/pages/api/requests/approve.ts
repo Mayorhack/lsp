@@ -29,7 +29,12 @@ export default async function requestHandler(
           from: "LASEPA",
           to: vehiclerequest.emailAddress,
           subject: "Vehicle Request",
-          text: `A veicle Request has been approve by ${approvedBy} to ${vehiclerequest.destination}`,
+          text: `
+          We are pleased to inform you that your vehicle request has been approved for your upcoming trip to  ${vehiclerequest.destination} on ${vehiclerequest.tripDuration}. You may now proceed to engage the assigned driver for your journey.
+          <br/>
+          Safe travels!
+          <br/>
+          Best regards,`,
         };
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
