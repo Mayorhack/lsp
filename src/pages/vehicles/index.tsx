@@ -31,7 +31,7 @@ const Vehicles = () => {
     status: "",
     color: "",
   });
-  console.log("jfjddddfixfjh");
+  console.log("jfjddddfjh");
 
   const [appliedFilter, setAppliedFilter] = useState(false);
 
