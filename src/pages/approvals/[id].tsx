@@ -108,7 +108,7 @@ const Details = () => {
           <p>Purpose</p>
           <p className="text-lg font-bold">{vehicleData?.purpose}</p>{" "}
           <p>Officers Count</p>
-          <p>{vehicleData?.officersCount}</p> <p>Trip Duration</p>
+          <p>{vehicleData?.officersCount}</p> <p>Date Of Trip</p>
           <p className="text-lg font-bold">
             {formatDate(vehicleData?.tripDuration || "")}
           </p>{" "}

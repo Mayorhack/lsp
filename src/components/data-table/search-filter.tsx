@@ -37,7 +37,7 @@ const SearchFilter: FC<SearchFilterProps> = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="" {...props}>
-          <div className="w-60 sm:w-96   bg-white p-2">
+          <div className="w-60 sm:w-96   bg-white p-3">
             {children}
             <div className="flex justify-between items-center gap-4 mt-6">
               <Button

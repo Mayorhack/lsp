@@ -21,7 +21,7 @@ const Approvals = () => {
   const [appliedFilter, setAppliedFilter] = useState(false);
 
   const { data: userData, isLoading } = useQuery(
-    ["allUsers", filters, appliedFilter],
+    ["allApprovals", filters, appliedFilter],
     () =>
       axiosInstance.request({
         method: "get",

@@ -170,6 +170,7 @@ const Home = () => {
               }}
               selected={requestForm.tripDuration}
               placeholderText="Date Of Trip"
+              minDate={new Date()}
             />
             <MyDatePicker
               onChange={(value: Date) => {

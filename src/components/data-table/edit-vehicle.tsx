@@ -9,6 +9,9 @@ import Button from "../Button";
 import Loader from "../Loader";
 import { status } from "@/data";
 import { VehicleType } from "@/types";
+import { Popover, PopoverContent, PopoverTrigger } from "../popover";
+import { HiOutlineDotsVertical } from "react-icons/hi";
+import Link from "next/link";
 
 const EditVehicle = ({ row }: { row: VehicleType }) => {
   const queryClient = useQueryClient();
@@ -44,6 +47,7 @@ const EditVehicle = ({ row }: { row: VehicleType }) => {
       },
     }
   );
+  const [open, setOpen] = useState(false);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -51,13 +55,35 @@ const EditVehicle = ({ row }: { row: VehicleType }) => {
   };
   return (
     <div>
-      <Button
+      {/* <Button
         variant={"outlined"}
         size={"sm"}
         onClick={() => setAddVehicleModal(true)}
       >
         Open
-      </Button>
+      </Button> */}
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger>
+          <HiOutlineDotsVertical size={20} />
+        </PopoverTrigger>
+        <PopoverContent className="">
+          <div className="w-24 text-sm font-medium -mt-2 bg-white text-gray-500">
+            <p
+              onClick={() => setAddVehicleModal(true)}
+              className="hover:bg-gray-200 -mx-2 px-2 py-1 cursor-pointer"
+            >
+              Edit
+            </p>
+
+            <Link
+              href={`/vehicles/${row._id}`}
+              className="hover:bg-gray-200 -mx-2 px-2 py-1 cursor-pointer block"
+            >
+              View History
+            </Link>
+          </div>
+        </PopoverContent>
+      </Popover>
       <Overlay
         openState={addVehicleModal}
         closeModal={() => setAddVehicleModal(false)}

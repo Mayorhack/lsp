@@ -33,6 +33,10 @@ export default async function handler(
         if (query.status) {
           filters.status = query.status;
         }
+        if (query.vehicle) {
+          filters.vehicle = query.vehicle;
+        }
+
         let hasNextPage;
         let hasPrevPage;
         let totalPages;

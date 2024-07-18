@@ -25,6 +25,9 @@ export default async function handler(
       case "GET": {
         const userCount = await User.find().countDocuments();
         const requestCount = await VehicleRequest.find().countDocuments();
+        const recentRequest = await VehicleRequest.find()
+          .sort({ createdAt: "desc" })
+          .limit(5);
         const requestSummary = await VehicleRequest.aggregate([
           {
             $project: {
@@ -67,6 +70,7 @@ export default async function handler(
               pendingCount,
               vehicleCount,
               requestList,
+              recentRequest,
             },
           });
         else {

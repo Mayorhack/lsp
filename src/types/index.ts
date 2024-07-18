@@ -49,6 +49,9 @@ export interface DateTimeProps {
   inline?: boolean;
   showTimeSelect?: boolean;
   dateForma?: string | string[] | undefined;
+  minDate?: Date | null;
+  minTime?: Date;
+  maxTime?: Date;
 }
 export type UserType = {
   firstname: string;
@@ -64,6 +67,7 @@ export type VehicleType = {
   color: string;
   status: string;
   createdAt?: string;
+  _id?: string;
 };
 export type ApprovalPayload = {
   status: "Y" | "N";
@@ -109,6 +113,7 @@ export interface UserFilters {
 export interface RequestFilters {
   username?: string | string[];
   status?: string | string[];
+  vehicle?: string | string[];
 }
 export interface VehicleFilters {
   plateNumber?: string | string[];
