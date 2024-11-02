@@ -2,11 +2,19 @@ import { errorHandler } from "@/lib/errorHandler";
 import connectToMongoDb from "@/lib/mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import DownloadCounts from "@/models/download-count";
+import initMiddleware from "@/lib/init-middleware";
+const cors = initMiddleware(
+  Cors({
+    methods: ["GET", "POST", "OPTIONS"], // Allowed methods
+    origin: "*", // Allow all origins. For security, replace '*' with a specific domain if needed.
+  })
+);
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
   try {
+    await cors(req, res);
     const { method, body } = req;
     const payload: any = body;
 
