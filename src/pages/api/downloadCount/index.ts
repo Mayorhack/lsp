@@ -25,7 +25,7 @@ export default async function handler(
           .json({ publicationCount: count.publicationCount });
       }
       case "POST": {
-        if (!payload.type && !payload.count) {
+        if (!payload.type) {
           throw new Error("Information Incomplete", { cause: 400 });
         }
         let counts = await DownloadCounts.findOne();
