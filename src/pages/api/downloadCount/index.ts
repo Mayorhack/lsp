@@ -1,6 +1,7 @@
 import { errorHandler } from "@/lib/errorHandler";
 import connectToMongoDb from "@/lib/mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
+import Cors from "cors";
 import DownloadCounts from "@/models/download-count";
 import initMiddleware from "@/lib/init-middleware";
 const cors = initMiddleware(
